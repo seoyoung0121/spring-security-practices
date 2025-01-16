@@ -1,4 +1,4 @@
-package config.web;
+package config.app;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,6 +26,12 @@ public class SecurityConfigEx04 {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http.build();
+    	http
+			.formLogin((formLogin)->{})
+			.authorizeHttpRequests((authorizeRequests)->{
+			/* Access Control List(ACL) */
+			authorizeRequests.anyRequest().authenticated();   // 안하면 에러남 
+			});
+	    return http.build();
     }
 }
