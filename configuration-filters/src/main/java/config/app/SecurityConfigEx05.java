@@ -27,6 +27,16 @@ public class SecurityConfigEx05 {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http.build();
+    	
+    	http
+			.formLogin((formLogin)->{formLogin.loginPage("/user/login");})
+			.authorizeHttpRequests((authorizeRequests)->{
+			/* ACL */
+			authorizeRequests
+			.requestMatchers(new RegexRequestMatcher("^/board/?(write|delete|modify|reply).*$",null)).authenticated()
+			.anyRequest().permitAll();   // 안하면 에러남 
+			});
+	    return http.build();
+        
     }
 }
